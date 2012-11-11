@@ -1,9 +1,12 @@
 "use strict";
 
 var tedious = require('tedious'),
+    async   = require("async"),
     TYPES   = tedious.TYPES;
 
 module.exports = function(connectionData, spMapping, callback) {
+
+    var queue = async.queue(processQueueTask, 1);
 
     connectionData.options = {
         connectTimeout : 1000,
@@ -23,20 +26,28 @@ module.exports = function(connectionData, spMapping, callback) {
     });
 
     function invoker(spName, map) {
-        spName = spMapping[spName] || spName;
+        queue.push({
+            sp  : spMapping[spName] || spName,
+            map : map
+        });
+    }
 
-        var sqlRequest = new tedious.Request(spName, function(err) {
+    function processQueueTask(task, callback) {
+
+        var sqlRequest = new tedious.Request(task.sp, function(err) {
             if (err) {
                 console.log(err);
             }
-            connection.close();
         });
-
-        for(var key in map) {
-            sqlRequest.addParameter(key, TYPES.VarChar, map[key].toString());
+        
+        for(var key in task.map) {
+            sqlRequest.addParameter(key, TYPES.VarChar, task.map[key].toString());
         }
+
+        sqlRequest.on('doneProc', function(){
+            process.nextTick(callback);
+        });
 
         connection.callProcedure(sqlRequest);
     }
-
 };
