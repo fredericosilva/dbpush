@@ -8,7 +8,7 @@ module.exports = function(connectionData, spMapping, callback) {
 
     var queue = async.queue(processQueueTask, 1);
 
-    connectionData.options = {
+    connectionData.options = connectionData.options || {
         connectTimeout : 1000,
         requestTimeout : 1000,
         cancelTimeout  : 1000
