@@ -39,7 +39,7 @@ module.exports = function(connectionData, spMapping, callback) {
                 console.log(err);
             }
         });
-        
+
         for(var key in task.map) {
             sqlRequest.addParameter(key, TYPES.VarChar, task.map[key].toString());
         }
