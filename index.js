@@ -20,9 +20,8 @@ module.exports = function(connectionData, spMapping, callback) {
         if(err) {
             console.log(err);
             connection.close();
-        } else {
-            callback(err, invoker);
         }
+        callback(err, invoker);
     });
 
     function invoker(spName, map) {
