@@ -40,7 +40,13 @@ module.exports = function(connectionData, spMapping, callback) {
         });
 
         for(var key in task.map) {
-            sqlRequest.addParameter(key, TYPES.VarChar, task.map[key].toString());
+            var value = task.map[key];
+
+            if (typeof value === 'object') {
+                value = JSON.stringify(value);
+            }
+
+            sqlRequest.addParameter(key, TYPES.VarChar, value.toString());
         }
 
         sqlRequest.on('doneProc', function(){
