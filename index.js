@@ -42,6 +42,10 @@ module.exports = function(connectionData, spMapping, callback) {
         for(var key in task.map) {
             var value = task.map[key];
 
+            if(value === undefined) {
+                continue;
+            }
+
             if (typeof value === 'object') {
                 value = JSON.stringify(value);
             }
