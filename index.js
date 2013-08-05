@@ -3,6 +3,7 @@
 var tedious = require('tedious')
   , async   = require('async')
   , TYPES   = tedious.TYPES
+  , log     = require('util').log
 ;
 
 module.exports = function(connectionData, spMapping, callback) {
@@ -19,10 +20,12 @@ module.exports = function(connectionData, spMapping, callback) {
     init(callback);
 
     function init(callback){
+        log('start a new connection...');
 
         connection = new tedious.Connection(connectionData);
 
         connection.on('connect', function(err) {
+            log('connect');
             
             if(err) {
                 console.log(err);
@@ -35,6 +38,7 @@ module.exports = function(connectionData, spMapping, callback) {
         });
 
         connection.on('end', function(err) {
+            log('connection was closed');
 
             if(err) {
                 console.log(err);
