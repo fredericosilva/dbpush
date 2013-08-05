@@ -8,6 +8,7 @@ var tedious = require('tedious')
 module.exports = function(connectionData, spMapping, callback) {
 
     var queue = async.queue(processQueueTask, 1);
+    var connection;
 
     connectionData.options = connectionData.options || {
         connectTimeout : 1000,
@@ -15,15 +16,32 @@ module.exports = function(connectionData, spMapping, callback) {
         cancelTimeout  : 1000
     };
 
-    var connection = new tedious.Connection(connectionData);
+    init(callback);
 
-    connection.on('connect', function(err) {
-        if(err) {
-            console.log(err);
-            connection.close();
-        }
-        callback(err, invoker);
-    });
+    function init(callback){
+
+        connection = new tedious.Connection(connectionData);
+
+        connection.on('connect', function(err) {
+            
+            if(err) {
+                console.log(err);
+                connection.close();
+            }
+
+            if (callback) {
+                callback(err, invoker);
+            }
+        });
+
+        connection.on('end', function(err) {
+
+            if(err) {
+                console.log(err);
+            }
+            setTimeout(init, 1000);
+        });
+    }
 
     function invoker(spName, map) {
         queue.push({
@@ -61,3 +79,4 @@ module.exports = function(connectionData, spMapping, callback) {
         connection.callProcedure(sqlRequest);
     }
 };
+
