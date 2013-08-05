@@ -1,8 +1,9 @@
 "use strict";
 
-var tedious = require('tedious'),
-    async   = require("async"),
-    TYPES   = tedious.TYPES;
+var tedious = require('tedious')
+  , async   = require('async')
+  , TYPES   = tedious.TYPES
+;
 
 module.exports = function(connectionData, spMapping, callback) {
 
