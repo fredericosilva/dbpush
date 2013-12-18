@@ -48,6 +48,11 @@ module.exports = function(connectionData, spMapping, callback) {
     }
 
     function invoker(spName, map) {
+
+        if (typeof spName !== 'string') {
+            return console.log('invalid spName', spName);
+        }
+
         queue.push({
             sp  : spMapping[spName] || spName,
             map : map
