@@ -1,3 +1,5 @@
+[![NPM](https://nodei.co/npm/dbpush.png)](https://nodei.co/npm/dbpush/)
+
 ###Example
 	var dbpush = require("dbpush");
 	
