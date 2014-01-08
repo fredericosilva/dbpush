@@ -82,7 +82,7 @@ module.exports = function(connectionData, spMapping, callback) {
         }
 
         sqlRequest.on('doneProc', function(){
-            process.setImmediate(callback);
+            setImmediate(callback);
         });
 
         connection.callProcedure(sqlRequest);
