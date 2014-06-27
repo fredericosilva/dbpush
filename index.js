@@ -78,7 +78,7 @@ module.exports = function(connectionData, spMapping, callback) {
                 value = JSON.stringify(value);
             }
 
-            sqlRequest.addParameter(key, TYPES.VarChar, value.toString());
+            sqlRequest.addParameter(key, TYPES.NVarChar, value.toString());
         }
 
         sqlRequest.on('doneProc', function(){
