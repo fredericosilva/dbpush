@@ -5,7 +5,7 @@
   "repository": "git://github.com/fredericosilva/dbpush.git",
   "author": "Frederico Silva <frederico.silva@gmail.com>",
   "dependencies": {
-    "tedious": "~0.1.5",
-    "async": "~0.1.22"
+    "tedious": "~0.3.0",
+    "async": "~0.9.0"
   }
 }
